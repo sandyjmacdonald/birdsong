@@ -1,0 +1,28 @@
+---
+// (8) Rarely heard species. The list is generated at build time from the data (src/lib/stats.js).
+import PhotoCredit from '../PhotoCredit.astro';
+import SectionNumber from '../SectionNumber.astro';
+import { sectionTitle, SITE } from '../../site.config.js';
+import { rareSpecies } from '../../lib/stats.js';
+const id = 'index-sec';
+const list = rareSpecies(3);
+---
+<section class="panel index" id={id} aria-labelledby="h-index">
+  <canvas class="art cut" id="cv-index" aria-hidden="true"></canvas>
+  <div class="gutter" style="position:relative">
+    <div>
+      <SectionNumber id={id} />
+      <h2 id="h-index" class="ink">{sectionTitle(id)}</h2>
+      <p class="prose ink">{list.length} species heard three times or fewer. Some were likely passing over. Others, like a night heron in {SITE.place}, are more likely {SITE.software.name} mishearing something more mundane; the less certain it was, the fainter the species' name.</p>
+      <ol class="idx ink">
+        {list.map(s => (
+          <li style={`--nm:${s.fade}`}>
+            <div class="row"><span class="nm">{s.name}</span><span class="dots"></span><span class="when">{s.when}</span></div>
+            <div class="sub">{s.sci}<em>{s.sure} sure</em></div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </div>
+  <PhotoCredit name="Jevgeni Fil" />
+</section>

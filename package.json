@@ -1,0 +1,20 @@
+{
+  "name": "birdsong",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "data": "node scripts/prepare-data.mjs",
+    "shots": "node scripts/shots.mjs"
+  },
+  "dependencies": {
+    "astro": "^7.3.4",
+    "d3": "^7.9.0"
+  },
+  "devDependencies": {
+    "playwright": "^1.63.0"
+  }
+}

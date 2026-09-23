@@ -1,0 +1,35 @@
+---
+// The page, top to bottom. Reorder or remove sections here (and update SECTIONS in src/site.config.js).
+import Base from '../layouts/Base.astro';
+import Hero from '../components/sections/Hero.astro';
+import Chorus from '../components/sections/Chorus.astro';
+import WhoSingsFirst from '../components/sections/WhoSingsFirst.astro';
+import ThreeSongs from '../components/sections/ThreeSongs.astro';
+import PullQuote from '../components/sections/PullQuote.astro';
+import DailyLandscape from '../components/sections/DailyLandscape.astro';
+import ComingsAndGoings from '../components/sections/ComingsAndGoings.astro';
+import QuietInTheWind from '../components/sections/QuietInTheWind.astro';
+import NightOwls from '../components/sections/NightOwls.astro';
+import FleetingCalls from '../components/sections/FleetingCalls.astro';
+import HowItListens from '../components/sections/HowItListens.astro';
+import Finale from '../components/sections/Finale.astro';
+---
+<Base>
+  <Hero />
+  <Chorus />
+  <WhoSingsFirst />
+  <ThreeSongs />
+  <PullQuote id="pq1" credit="Jakub Kříž">Two-thirds of all bird song happened in the four hours around sunrise.</PullQuote>
+  <DailyLandscape />
+  <ComingsAndGoings />
+  <PullQuote id="pq2" credit="Annie Spratt" creditDark>Still mornings brought more than five times as much bird song as windy ones.</PullQuote>
+  <QuietInTheWind />
+  <NightOwls />
+  <FleetingCalls />
+  <HowItListens />
+  <Finale />
+</Base>
+
+<script>
+  import '../scripts/main.js';
+</script>

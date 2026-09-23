@@ -1,0 +1,19 @@
+---
+// (6) Morning calls against wind speed. Charts: src/scripts/sections/wind.js, data: src/data/weather.json
+import PhotoCredit from '../PhotoCredit.astro';
+import SectionNumber from '../SectionNumber.astro';
+import { sectionTitle } from '../../site.config.js';
+const id = 'wind-sec';
+---
+<section class="panel wind" id={id} aria-labelledby="h-wind">
+  <canvas class="art cut" id="cv-wind" aria-hidden="true"></canvas>
+  <div class="gutter" style="position:relative">
+    <SectionNumber id={id} />
+    <h2 id="h-wind" class="ink">{sectionTitle(id)}</h2>
+    <p class="prose ink">Calm mornings* are loud ones. In the hours around sunrise, a still morning averaged <span id="w-calm">26</span> calls an hour. Once the wind passed 20&nbsp;km/h, that fell to <span id="w-windy">under 5</span>. Some of that is the birds, which sing less in wind, and some is the microphone, which hears less through the noise. Rain barely mattered: it fell in only <span id="w-wet">five</span> of the morning hours all season.</p>
+    <div class="wind-bars" id="windBars"></div>
+    <div class="strip-wrap"><div class="wind-strip" id="windStrip"></div></div>
+    <p class="wind-note ink">* Morning means half an hour before sunrise to three and a half hours after. Local hourly wind speed data from Open-Meteo.</p>
+  </div>
+  <PhotoCredit name="Flyd" dark />
+</section>

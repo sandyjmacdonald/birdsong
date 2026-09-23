@@ -1,0 +1,7 @@
+---
+// Small vertical photo credit at the edge of a page, magazine style.
+interface Props { name: string; top?: boolean; dark?: boolean }
+const { name, top = false, dark = false } = Astro.props;
+const style = [top ? 'bottom:auto;top:1.4rem' : '', dark ? 'color:rgba(30,27,24,.6)' : ''].filter(Boolean).join(';');
+---
+<div class="photo-credit ink" aria-hidden="true" style={style || undefined}>Photograph: {name} / Unsplash</div>

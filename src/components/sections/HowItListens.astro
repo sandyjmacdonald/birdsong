@@ -1,0 +1,19 @@
+---
+// How the birds were identified: BirdNET-Go, the BirdNET model and where it came from. Background: src/scripts/sections/method.js
+import PhotoCredit from '../PhotoCredit.astro';
+import { SITE } from '../../site.config.js';
+---
+<section class="panel method" id="method" aria-labelledby="h-method">
+  <canvas class="art cut" id="cv-method" aria-hidden="true"></canvas>
+  <div class="gutter" style="position:relative">
+    <div class="num ink">(Addendum)</div>
+    <h2 id="h-method" class="ink">How it listens</h2>
+    <p class="prose ink">All the birds detected in the visualisations on this page were picked out by a Raspberry Pi 5 listening to a microphone at the front of our house, 24/7. {SITE.software.name} chops the sound into three-second slices, converts each one into a spectrogram, and runs it through a small AI model trained to recognise bird songs. All the AI runs locally on the Raspberry Pi, and no audio data is sent anywhere; no data centres involved!</p>
+    <p class="prose ink">The AI model used is BirdNET, which began as a research project at the Cornell Lab of Ornithology's K. Lisa Yang Center for Conservation Bioacoustics, together with Chemnitz University of Technology. Trained on recordings from around the world, it now knows the songs and calls of more than 6,000 species. {SITE.software.name} is an independent, open-source project that wraps it up and runs it on a tiny computer that uses the same energy as a standard lightbulb and gives you a nice web interface to view the data.</p>
+    <ul class="refs ink">
+      <li><a href="https://doi.org/10.1016/j.ecoinf.2021.101236" target="_blank" rel="noopener"><span class="t">BirdNET: A deep learning solution for avian diversity monitoring</span><span class="dots"></span><span class="src">Kahl et al., <i>Ecological Informatics</i>, 2021</span></a></li>
+      <li><a href={SITE.software.url} target="_blank" rel="noopener"><span class="t">{SITE.software.name}</span><span class="dots"></span><span class="src">GitHub</span></a></li>
+    </ul>
+  </div>
+  <PhotoCredit name="Albert Stoynov" />
+</section>

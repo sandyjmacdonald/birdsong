@@ -1,0 +1,11 @@
+---
+// A full-width pull quote. The background is drawn in src/scripts/sections/quotes.js (pages "pq1", "pq2").
+import PhotoCredit from '../PhotoCredit.astro';
+interface Props { id: 'pq1' | 'pq2'; credit?: string; creditDark?: boolean }
+const { id, credit, creditDark = false } = Astro.props;
+---
+<section class={`panel pq ${id}`} id={id} aria-label="Pull quote">
+  <canvas class="art cut" id={`cv-${id}`} aria-hidden="true"></canvas>
+  <blockquote class="inkL"><slot /></blockquote>
+  {credit && <PhotoCredit name={credit} dark={creditDark} />}
+</section>

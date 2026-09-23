@@ -1,0 +1,17 @@
+---
+// Closing page and small print.
+import PhotoCredit from '../PhotoCredit.astro';
+import { SITE } from '../../site.config.js';
+import { totalDetections, speciesCount, dayCount, excludedRows, n } from '../../lib/stats.js';
+---
+<section class="panel finale" id="finale" aria-label="Closing">
+  <div class="stage" id="finaleStage">
+    <canvas class="art cut" id="cv-finale" aria-hidden="true"></canvas>
+    <div class="copy"><p class="big inkL">{speciesCount} species.<br>{n(totalDetections)} songs.<br>{dayCount} days.</p></div>
+    <div class="fine ink">
+      <p>Recorded and identified with <a href={SITE.software.url} target="_blank" rel="noopener">{SITE.software.name}</a>. BirdNET model detections only, exported from InfluxDB; {n(excludedRows)} Perch model detections were excluded because the model did not run consistently. Hooded and Carrion Crows are counted together as Carrion Crow, and 36 rows labelled only <i>Coloeus monedula</i> are counted as Eurasian Jackdaw. Sunrise and twilight times are calculated for {SITE.place}.</p>
+      <p><a href="#top">Back to the beginning</a></p>
+    </div>
+    <PhotoCredit name="Julian Rosner" />
+  </div>
+</section>

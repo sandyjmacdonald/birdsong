@@ -1,0 +1,25 @@
+---
+// Cover: title, subtitle and the contents list, over the murmuration photograph.
+import PhotoCredit from '../PhotoCredit.astro';
+import { SECTIONS, SITE } from '../../site.config.js';
+import { totalDetections, speciesCount, dayCount, firstDay, lastDay, n } from '../../lib/stats.js';
+---
+<header class="panel hero" id="top">
+  <canvas class="art" id="cv-hero" aria-hidden="true"></canvas>
+  <div class="hero-in">
+    <div>
+      <div class="kicker ink">{firstDay.toUpperCase()} TO {lastDay.toUpperCase()}</div>
+      <h1 class="inkL">{n(totalDetections)} bird songs</h1>
+      <p class="dek ink">{speciesCount} species over {dayCount} days, identified by <a href={SITE.software.url} target="_blank" rel="noopener">{SITE.software.name}</a> in {SITE.place}.</p>
+      <p class="prose ink"><em>BirdNET-Go uses a local AI model running on a Raspberry Pi that uses about the same energy as a standard lightbulb.</em></p>
+    </div>
+    <nav aria-label="Contents" style="width:100%;display:flex;justify-content:center">
+      <ol class="toc ink">
+        {SECTIONS.map((s, i) => (
+          <li><a href={`#${s.id}`}><span class="num">({i + 1})</span><span class="dots"></span><span class="t">{s.title}</span></a></li>
+        ))}
+      </ol>
+    </nav>
+  </div>
+  <PhotoCredit name="Nastia Petruk" />
+</header>

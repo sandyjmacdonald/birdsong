@@ -1,0 +1,24 @@
+---
+// (1) Every detection as a point of light, played forward by scrolling. Chart: src/scripts/sections/chorus.js
+import PhotoCredit from '../PhotoCredit.astro';
+import PlayIcon from '../PlayIcon.astro';
+import SectionNumber from '../SectionNumber.astro';
+import { sectionTitle } from '../../site.config.js';
+import { totalDetections, firstDay, n } from '../../lib/stats.js';
+const id = 'chorus-sec';
+---
+<section class="panel chorus" id={id} aria-labelledby="h-chorus">
+  <div class="stage" id="chorusStage">
+    <canvas class="art cut" id="cv-chorus" role="img" aria-label="Every BirdNET-Go detection drawn as a point of light, day by day. They gather along the band of sunrise and drift later each morning."></canvas>
+    <div class="head gutter">
+      <SectionNumber id={id} />
+      <h2 id="h-chorus" class="ink">{sectionTitle(id)}</h2>
+      <p class="prose ink">Every one of {n(totalDetections)} bird calls, drawn as points of light. Scroll downwards to see the season progress, one morning at a time.</p>
+      <button type="button" class="listen-btn ink" id="chorusPlay" data-play="chorus"><PlayIcon /><span class="lbl">Hear a short dawn chorus</span></button>
+    </div>
+    <div id="hours"></div>
+    <div class="notes ink" id="notes"></div>
+    <div class="board ink"><div class="day" id="day">{firstDay}</div><div class="count"><span id="tally">0</span> calls so far</div></div>
+    <PhotoCredit name="Ian C" />
+  </div>
+</section>

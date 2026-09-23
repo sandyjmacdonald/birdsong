@@ -1,0 +1,63 @@
+---
+// Page shell: metadata, fonts, the ink filters used on text, and the tooltip.
+import '../styles/global.css';
+import { totalDetections, speciesCount, dayCount, n } from '../lib/stats.js';
+import { SITE } from '../site.config.js';
+const title = `${n(totalDetections)} bird songs`;
+const description = `${speciesCount} species over ${dayCount} days, identified by ${SITE.software.name} in ${SITE.place}.`;
+const preview = Astro.site ? new URL('preview.png', Astro.site).href : '/preview.png';
+---
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0B0A0C">
+  <title>{title}</title>
+  <meta name="description" content={description}>
+  <meta property="og:title" content={title}>
+  <meta property="og:description" content={description}>
+  <meta property="og:type" content="website">
+  <meta property="og:image" content={preview}>
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐦</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..700,0..100,0..1;1,9..144,300..700,0..100,0..1&family=Hanken+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <filter id="ink" x="-3%" y="-15%" width="106%" height="130%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="7" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="1.25" xChannelSelector="R" yChannelSelector="G" result="d"/>
+      <feGaussianBlur in="d" stdDeviation="0.3" result="b"/>
+      <feTurbulence type="fractalNoise" baseFrequency="1.7" numOctaves="1" seed="3" result="n2"/>
+      <feColorMatrix in="n2" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 16 -11.6" result="holes"/>
+      <feComposite in="b" in2="holes" operator="out"/>
+    </filter>
+    <filter id="inkB" x="-3%" y="-15%" width="106%" height="130%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="0.95" numOctaves="2" seed="9" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="1.7" xChannelSelector="R" yChannelSelector="G" result="d"/>
+      <feGaussianBlur in="d" stdDeviation="0.42" result="b"/>
+      <feTurbulence type="fractalNoise" baseFrequency="1.7" numOctaves="1" seed="4" result="n2"/>
+      <feColorMatrix in="n2" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 16 -11.4" result="holes"/>
+      <feComposite in="b" in2="holes" operator="out"/>
+    </filter>
+    <filter id="inkL" x="-3%" y="-15%" width="106%" height="130%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="0.55" numOctaves="3" seed="11" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="2.6" xChannelSelector="R" yChannelSelector="G" result="d"/>
+      <feGaussianBlur in="d" stdDeviation="0.55" result="b"/>
+      <feTurbulence type="fractalNoise" baseFrequency="1.2" numOctaves="2" seed="5" result="n2"/>
+      <feColorMatrix in="n2" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 15 -10.9" result="holes"/>
+      <feComposite in="b" in2="holes" operator="out"/>
+    </filter>
+  </defs>
+</svg>
+<div class="grain" aria-hidden="true"></div>
+<slot />
+<div id="tip" role="status" aria-live="polite"></div>
+</body>
+</html>

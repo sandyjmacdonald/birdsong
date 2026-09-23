@@ -1,0 +1,5 @@
+---
+import { sectionNumber } from '../site.config.js';
+const { id } = Astro.props;
+---
+<div class="num ink">({sectionNumber(id)})</div>

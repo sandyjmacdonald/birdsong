@@ -1,0 +1,20 @@
+---
+// (2) Species placed by their typical first call relative to sunrise. Chart: src/scripts/sections/wake.js
+import PhotoCredit from '../PhotoCredit.astro';
+import SectionNumber from '../SectionNumber.astro';
+import { sectionTitle } from '../../site.config.js';
+const id = 'wake-sec';
+---
+<section class="panel wake" id={id} aria-labelledby="h-wake">
+  <div class="stage" id="wakeStage">
+    <canvas class="art cut" id="cv-wake" aria-hidden="true"></canvas>
+    <svg id="wakeSvg" class="ink" role="img" aria-label="Species names placed by how long before or after sunrise they usually start calling; they light up in order as you scroll"></svg>
+    <div class="head gutter">
+      <SectionNumber id={id} />
+      <h2 id="h-wake" class="ink">{sectionTitle(id)}</h2>
+      <p class="prose ink">The first call of each morning, set against that day's sunrise. The robin is usually first to sing, <span id="robin-min">44 minutes</span> before the sun rises.</p>
+    </div>
+    <div class="clock ink" id="clock">An hour and a half before sunrise</div>
+    <PhotoCredit name="Kabita Darlami" top />
+  </div>
+</section>

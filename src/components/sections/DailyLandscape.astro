@@ -1,0 +1,17 @@
+---
+// (4) Each species' daily pattern as a misty ridge. Chart: src/scripts/sections/land.js
+import PhotoCredit from '../PhotoCredit.astro';
+import SectionNumber from '../SectionNumber.astro';
+import { sectionTitle } from '../../site.config.js';
+const id = 'land-sec';
+---
+<section class="panel land" id={id} aria-labelledby="h-land">
+  <canvas class="art cut" id="cv-land" aria-hidden="true"></canvas>
+  <div class="gutter" style="position:relative">
+    <SectionNumber id={id} />
+    <h2 id="h-land" class="ink">{sectionTitle(id)}</h2>
+    <p class="prose ink">Each ridge in front is one species' day, from three in the morning to ten at night. Most rise steeply at dawn and fall away by mid-morning. Woodpigeons and magpies come back in the evening, coal tits keep going all morning, and the crows never quite stop.</p>
+  </div>
+  <div class="mountains" id="mountains" role="img" aria-label="Layered mountain ridges, one per species, each shaped by when in the day that species is heard"></div>
+  <PhotoCredit name="Alessio Soggetti" />
+</section>
