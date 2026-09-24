@@ -130,8 +130,8 @@ h2 { font-size: clamp(2.2rem, 4.8vw, 4.1rem); line-height: 1.02; letter-spacing:
 /* ---------- pull quotes ---------- */
 .pq { position: relative; display: flex; justify-content: center; text-align: center; padding: 0 clamp(1.6rem, 9vw, 8.5rem); }
 .pq blockquote { margin: 0; position: relative; font-family: var(--serif); font-weight: 400; font-size: clamp(2rem, 4.4vw, 3.9rem); line-height: 1.12; letter-spacing: -.015em; max-width: 21ch; text-wrap: balance; font-variation-settings: "opsz" 144, "SOFT" 100; }
-.pq1 { z-index: 5; height: 72vh; height: 72svh; min-height: 440px; align-items: center; color: #221C1E; }
-.pq2 { z-index: 8; height: 72vh; height: 72svh; min-height: 440px; align-items: center; color: #1F2630; }
+.pq1 { z-index: 5; height: min(72vh, 42vw + 240px); height: min(72svh, 42vw + 240px); min-height: 440px; align-items: center; color: #221C1E; }
+.pq2 { z-index: 8; height: min(72vh, 42vw + 240px); height: min(72svh, 42vw + 240px); min-height: 440px; align-items: center; color: #1F2630; }
 
 /* ---------- land ---------- */
 .land { z-index: 6; color: var(--ink); padding: clamp(6rem, 16vh, 10rem) 0 0; }

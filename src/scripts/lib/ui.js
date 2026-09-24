@@ -6,8 +6,11 @@ export const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;   // r
 export const COARSE = matchMedia('(pointer: coarse)').matches;              // phones and tablets
 export const nf = new Intl.NumberFormat('en-GB');
 
-// How far through a tall (sticky) section we've scrolled, 0 to 1.
-export const secProgress = el => { const r = el.getBoundingClientRect(); return clamp01(-r.top / Math.max(1, r.height - innerHeight)); };
+// How far through a tall (sticky) section we've scrolled, 0 to 1. scripts/shots.mjs can pin it via window.__progress.
+export const secProgress = el => {
+  if (window.__progress?.[el.id] !== undefined) return window.__progress[el.id];
+  const r = el.getBoundingClientRect(); return clamp01(-r.top / Math.max(1, r.height - innerHeight));
+};
 
 let tip;
 export function showTip(html, x, y) {

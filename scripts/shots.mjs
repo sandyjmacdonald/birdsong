@@ -21,25 +21,31 @@ import { chromium } from 'playwright';
 //   selector   or: any CSS selector, framed by `align`
 //   align      'top' (default), 'center' or 'bottom': where the element sits in the frame
 //   offset     extra pixels to scroll down (+) or up (-) after aligning
-//   progress   for the scroll-animated sections (chorus-sec, wake-sec): 0 = start, 1 = finished
+//   progress   for the scroll-animated sections (chorus-sec, wake-sec): 0 = start, 1 = finished.
+//              These are centred in the frame unless you set `align`.
 //   date       for chorus-sec only: play the season up to this day, e.g. '14 August'
 //   format     'portrait' (1080×1350, 4:5), 'grid' (1080×1440, 3:4), 'square' (1080×1080), 'story' (1080×1920)
 //   hide       CSS selectors to hide for this shot, e.g. ['.photo-credit']
 //   fill       true: size the page so this section exactly fills the frame (for sections whose
 //              height follows the screen: the cover, the pull quotes and the closing page)
+//   height     fixed height in px for this section. Sections that normally fill the screen (the cover,
+//              chorus-sec, wake-sec, the closing page) are all SECTION_HEIGHT tall in shots, unless this
+//              one has `fill` set, so neighbouring sections show above or below them. Scroll-animated
+//              sections appear finished (progress 1) unless this shot sets their `progress` or `date`.
 // ---------------------------------------------------------------------------------------------
 const SHOTS = [
-  { name: '01-cover', section: 'top', fill: true },
+  { name: '01-cover', section: 'top', align: 'top' },
   { name: '02-chorus-full-season', section: 'chorus-sec', progress: 1, align: 'center' },
   { name: '03-who-sings-first', section: 'wake-sec', progress: 1, align: 'center' },
   { name: '04-three-songs', section: 'listen-sec', align: 'center' },
   { name: '05-pull-quote-sunrise', section: 'pq1', align: 'center'},
   { name: '06-shape-of-a-day', section: 'land-sec', align: 'center' },
   { name: '07-comings-and-goings', section: 'threads-sec', align: 'center' },
-  { name: '08-quiet-in-the-wind', section: 'wind-sec', align: 'center' },
-  { name: '09-after-dark', section: 'owls-sec', align: 'center' },
-  { name: '10-how-it-listens', selector: '#method', align: 'center' },
-  { name: '11-closing', section: 'finale', fill: true },
+  { name: '08-pull-quote-wind', section: 'pq2', align: 'center'},
+  { name: '09-quiet-in-the-wind', section: 'wind-sec', align: 'center' },
+  { name: '10-after-dark', section: 'owls-sec', align: 'center' },
+  { name: '11-how-it-listens', selector: '#method', align: 'center' },
+  { name: '12-closing', section: 'finale', align: 'top' },
 ];
 
 const FORMATS = { portrait: [1080, 1350], grid: [1080, 1440], square: [1080, 1080], story: [1080, 1920] };
@@ -50,6 +56,11 @@ const DOT_SCALE = 1.25;
 // How long to let the print effect finish after the page loads and after each scroll (ms).
 // Increase these if shots come out soft or half-drawn.
 const WAIT_LOAD = 4000, WAIT_SCROLL = 1500;
+// Height (px) given to screen-sized sections in shots, instead of the full screen. Capped at the frame height.
+const SECTION_HEIGHT = 1350;
+// Sections whose height follows the screen, and which of those are scroll-animated.
+const SCREEN_SIZED = ['top', 'chorus-sec', 'wake-sec', 'finale'];
+const ANIMATED = ['chorus-sec', 'wake-sec'];
 
 // ---------------------------------------------------------------------------------------------
 const args = process.argv.slice(2);
@@ -77,11 +88,11 @@ function serveDist() {
 const settle = (page, ms) => page.evaluate(ms => new Promise(r => requestAnimationFrame(() => requestAnimationFrame(() => setTimeout(r, ms)))), ms);
 
 async function scrollForShot(page, shot, H) {
-  // Scroll-animated sections: position by progress (0–1) or, for the chorus, by date.
+  // Scroll-animated sections: set their progress (0–1) or, for the chorus, a date, then frame them like any other section.
   if (shot.section && (shot.progress !== undefined || shot.date)) {
-    const posFor = p => page.evaluate(([id, p]) => {
-      const el = document.getElementById(id); if (!el) throw new Error('No section #' + id);
-      return el.offsetTop + p * (el.offsetHeight - innerHeight);
+    const setProgress = p => page.evaluate(([id, p]) => {
+      if (!document.getElementById(id)) throw new Error('No section #' + id);
+      window.__progress = { ...window.__progress, [id]: p };
     }, [shot.section, p]);
     if (shot.date) {
       // Work out which day of the season that is from the cover's date line ("17 JULY TO 22 SEPTEMBER 2026"),
@@ -95,11 +106,11 @@ async function scrollForShot(page, shot, H) {
       const ND = Math.round((last - first) / 864e5) + 1, d = Math.round((target - first) / 864e5);
       if (d < 0 || d >= ND) throw new Error(`"${shot.date}" is outside the season.`);
       const p = Math.max(0, Math.min(1, (d + .95 - .3) / ((ND - .3) * 1.04)));
-      await page.evaluate(y => window.scrollTo(0, y), await posFor(p));
+      await setProgress(p);
     } else {
-      await page.evaluate(y => window.scrollTo(0, y), await posFor(Math.max(0, Math.min(1, shot.progress))));
+      await setProgress(Math.max(0, Math.min(1, shot.progress)));
     }
-    return;
+    shot = { align: 'center', ...shot };
   }
   // Everything else: align a section's top edge, or any element, in the frame.
   const sel = shot.selector || `#${shot.section}`;
@@ -144,6 +155,20 @@ async function main() {
         patch(WebGLRenderingContext.prototype);
         if (window.WebGL2RenderingContext) patch(WebGL2RenderingContext.prototype);
       }, DOT_SCALE);
+      // Screen-sized sections get a fixed height instead, and scroll-animated ones are shown finished rather than
+      // scrolled through (the shot's own section is set to its `progress`/`date` in scrollForShot).
+      const heights = {};
+      for (const id of SCREEN_SIZED) if (!(shot.fill && id === shot.section)) heights[id] = Math.min(SECTION_HEIGHT, H);
+      if (shot.section && shot.height) heights[shot.section] = shot.height;
+      await ctx.addInitScript(([heights, animated]) => {
+        window.__progress = Object.fromEntries(animated.map(id => [id, 1]));
+        document.addEventListener('DOMContentLoaded', () => {
+          const st = document.createElement('style');
+          st.textContent = Object.entries(heights).map(([id, h]) =>
+            `#${id} { height: ${h}px !important; min-height: 0 !important; } #${id} .stage { position: relative; height: 100%; }`).join('\n');
+          document.head.append(st);
+        });
+      }, [heights, ANIMATED]);
       const page = await ctx.newPage();
       page.on('pageerror', e => console.warn('  page error:', e.message));
       await page.goto(srv.url, { waitUntil: 'load' });
