@@ -24,7 +24,7 @@ panel('wake', { dynamic: true, mix: .42, fold: false, draw(ctx, W, H) {
   const G = wakeGeo; const p = wakeP, sunP = clamp01((G.lo + p * (G.hi - G.lo) + 60) / 180);
   ctx.fillStyle = '#081013'; ctx.fillRect(0, 0, W, H);
   const im = IMG.wake, s = Math.max(W / im.width, H / im.height) * 1.18;
-  const sunX = .452 * im.width * s, sunY = .545 * im.height * s;
+  const sunX = .448 * im.width * s, sunY = .545 * im.height * s;
   let ox = G.X(0) - sunX; ox = Math.min(0, Math.max(W - im.width * s, ox));
   let oy = (G.horizon + 30 - sunP * 95) - sunY; oy = Math.min(0, Math.max(H - im.height * s, oy));
   ctx.drawImage(im, ox, oy, im.width * s, im.height * s);
