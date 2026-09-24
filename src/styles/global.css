@@ -49,8 +49,9 @@ h2 { font-size: clamp(2.2rem, 4.8vw, 4.1rem); line-height: 1.02; letter-spacing:
 .hero { height: 100vh; height: 100svh; min-height: 720px; z-index: 1; }
 .hero-in { position: relative; height: 100%; display: flex; flex-direction: column; justify-content: space-between; align-items: center; text-align: center; padding: clamp(4.5rem, 16vh, 10rem) 1.5rem clamp(1.8rem, 6vh, 3.5rem); }
 .kicker { font-size: .78rem; letter-spacing: .24em; font-weight: 500; color: rgba(241,233,219,.85); }
-.hero h1 { font-size: clamp(2.4rem, 7vw, 6.4rem); line-height: 1; letter-spacing: -.022em; margin-top: 1.2rem; color: --cream; font-weight: 440; font-variation-settings: "opsz" 144, "SOFT" 100, "WONK" 0; }
+.hero h1 { font-size: clamp(3rem, 8vw, 8rem); line-height: 1; letter-spacing: -.022em; margin-top: 1.2rem; color: --cream; font-weight: 440; font-variation-settings: "opsz" 144, "SOFT" 100, "WONK" 0; }
 .dek { max-width: 34rem; text-wrap: balance; margin: 1.4rem auto 0; font-family: var(--serif); font-weight: 400; font-size: clamp(1.08rem, 1.6vw, 1.28rem); color: rgba(243,235,221,.92); font-variation-settings: "SOFT" 100; }
+.hero .prose { margin: 1rem auto 0; text-wrap: balance; }
 .toc { list-style: none; padding: 0; margin: 0; width: min(27rem, 100%); }
 .toc li { margin: .4rem 0; }
 .toc a { display: flex; align-items: baseline; gap: .8rem; text-decoration: none; padding: .12rem 0; }
@@ -185,7 +186,7 @@ h2 { font-size: clamp(2.2rem, 4.8vw, 4.1rem); line-height: 1.02; letter-spacing:
 /* ---------- finale ---------- */
 .finale { height: 100vh; height: 100svh; min-height: 620px; z-index: 13; }
 .finale .copy { position: absolute; left: 0; right: 0; top: 34%; transform: translateY(-50%); text-align: center; padding: 0 1.5rem; }
-.finale .big { font-family: var(--serif); font-size: clamp(2.4rem, 7vw, 6.4rem); line-height: 1.1; letter-spacing: -.02em; margin: 0; font-variation-settings: "opsz" 144, "SOFT" 100; color: #F3EBDD; }
+.finale .big { font-family: var(--serif); font-size: clamp(3rem, 8vw, 8rem); line-height: 1.1; letter-spacing: -.02em; margin: 0; font-variation-settings: "opsz" 144, "SOFT" 100; color: #F3EBDD; }
 .finale .fine { position: absolute; left: 50%; bottom: clamp(1.2rem, 4vh, 2.5rem); transform: translateX(-50%); width: min(38rem, calc(100% - 3rem)); text-align: center; font-size: .78rem; color: var(--cream-3); }
 .finale .fine p { margin: 0 0 .5rem; }
 
